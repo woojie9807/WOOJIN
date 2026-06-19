@@ -1,17 +1,18 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { Geist, Instrument_Serif } from 'next/font/google'
 import './globals.css'
 
 const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
-const geistMono = Geist_Mono({
-  variable: '--font-geist-mono',
+const instrumentSerif = Instrument_Serif({
+  variable: '--font-instrument-serif',
+  weight: '400',
   subsets: ['latin'],
 })
 
 export const metadata: Metadata = {
-  title: '우지니의 주식 계좌 대시보드',
-  description: '보유 종목, 평가 손익, 자산 추이를 한눈에 보는 포트폴리오 대시보드',
+  title: 'Us — 우리 둘의 기록',
+  description: '둘만 공유하는 사진과 추억의 공간',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -46,7 +47,10 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ko" className={`${geistSans.variable} ${geistMono.variable} bg-background`}>
+    <html
+      lang="ko"
+      className={`${geistSans.variable} ${instrumentSerif.variable} bg-background`}
+    >
       <body className="font-sans antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
