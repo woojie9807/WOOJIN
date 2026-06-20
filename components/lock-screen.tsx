@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Lock } from "lucide-react"
 
 // 목업용 공유 비밀번호. 실제 배포 시 백엔드 인증으로 교체하세요.
-const SHARED_PASSWORD = "우리둘"
+const SHARED_PASSWORD = "0211"
 
 export function LockScreen({ onUnlock }: { onUnlock: () => void }) {
   const [value, setValue] = useState("")
@@ -60,9 +60,6 @@ export function LockScreen({ onUnlock }: { onUnlock: () => void }) {
           </Button>
         </form>
 
-        <p className="mt-6 text-xs text-muted-foreground/70">
-          데모 비밀번호: 우리둘
-        </p>
       </div>
     </main>
   )
