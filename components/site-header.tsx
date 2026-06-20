@@ -14,8 +14,8 @@ export function SiteHeader({
     <header className="sticky top-0 z-30 border-b border-border bg-background/85 backdrop-blur-md">
       <div className="mx-auto flex max-w-5xl items-center justify-between px-5 py-4 sm:px-6">
         <div className="flex items-baseline gap-3">
-          <span className="font-serif text-3xl leading-none tracking-tight text-foreground">
-            Us
+          <span className="font-sans text-3xl leading-none tracking-tight text-foreground">
+            Record
           </span>
           <span className="hidden text-xs uppercase tracking-[0.2em] text-muted-foreground sm:inline">
             {count}개의 기록

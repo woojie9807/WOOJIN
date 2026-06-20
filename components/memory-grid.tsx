@@ -13,11 +13,11 @@ export function MemoryGrid({
   return (
     <section className="mx-auto max-w-5xl px-5 py-10 sm:px-6">
       <div className="mb-10 max-w-xl">
-        <h2 className="text-balance font-serif text-4xl leading-tight tracking-tight text-foreground sm:text-5xl">
-          우리가 함께 지나온 날들
+        <h2 className="text-balance font-sans text-4xl leading-tight tracking-tight text-foreground sm:text-5xl">
+          지금 이 순간을 공유해요 👀
         </h2>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-          사진 한 장마다 그날의 기분과 짧은 글을 담았어요.
+          사진과 함께 짧은 글을 남기실 수 있습니다.
         </p>
       </div>
 
@@ -30,7 +30,7 @@ export function MemoryGrid({
           >
             <div className="relative aspect-square w-full overflow-hidden rounded-md bg-muted">
               <Image
-                src={m.image || "/placeholder.svg"}
+                src={m.images[0] || "/placeholder.svg"}
                 alt={m.caption}
                 fill
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
@@ -39,6 +39,11 @@ export function MemoryGrid({
               <span className="absolute right-3 top-3 flex size-9 items-center justify-center rounded-full bg-background/85 text-base backdrop-blur-sm">
                 <span aria-hidden="true">{m.mood}</span>
               </span>
+              {m.images.length > 1 && (
+                <span className="absolute left-3 top-3 flex items-center gap-1 rounded-full bg-background/80 px-2 py-0.5 text-xs backdrop-blur-sm">
+                  📷 {m.images.length}
+                </span>
+              )}
             </div>
             <div className="mt-3">
               <time className="text-xs uppercase tracking-[0.15em] text-muted-foreground">

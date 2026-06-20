@@ -11,7 +11,7 @@ const instrumentSerif = Instrument_Serif({
 })
 
 export const metadata: Metadata = {
-  title: 'Us — 우리 둘의 기록',
+  title: 'Record',
   description: '둘만 공유하는 사진과 추억의 공간',
   generator: 'v0.app',
   icons: {

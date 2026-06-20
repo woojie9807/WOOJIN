@@ -28,8 +28,8 @@ export function LockScreen({ onUnlock }: { onUnlock: () => void }) {
           <Lock className="size-5" aria-hidden="true" />
         </div>
 
-        <h1 className="font-serif text-6xl leading-none tracking-tight text-foreground">
-          Us
+        <h1 className="font-sans text-6xl leading-none tracking-tight text-foreground">
+          Record
         </h1>
         <p className="mt-4 text-pretty text-sm leading-relaxed text-muted-foreground">
           둘만 아는 비밀번호를 입력하면

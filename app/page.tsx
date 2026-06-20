@@ -26,11 +26,6 @@ export default function Page() {
     <main className="min-h-screen bg-background">
       <SiteHeader count={memories.length} onUpload={() => setUploadOpen(true)} />
       <MemoryGrid memories={memories} onSelect={setSelected} />
-      <footer className="border-t border-border py-10 text-center">
-        <p className="font-serif text-lg text-muted-foreground">
-          우리 둘만의 작은 기록
-        </p>
-      </footer>
 
       <MemoryDetail
         memory={selected}

@@ -14,7 +14,7 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 import { MOODS, type Memory } from "@/lib/posts"
-import { ImagePlus } from "lucide-react"
+import { ImagePlus, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 export function UploadDialog({
@@ -26,14 +26,14 @@ export function UploadDialog({
   onOpenChange: (open: boolean) => void
   onAdd: (memory: Memory) => void
 }) {
-  const [preview, setPreview] = useState<string | null>(null)
+  const [previews, setPreviews] = useState<string[]>([])
   const [date, setDate] = useState(() => new Date().toISOString().slice(0, 10))
   const [mood, setMood] = useState(MOODS[0])
   const [caption, setCaption] = useState("")
   const fileRef = useRef<HTMLInputElement>(null)
 
   function reset() {
-    setPreview(null)
+    setPreviews([])
     setDate(new Date().toISOString().slice(0, 10))
     setMood(MOODS[0])
     setCaption("")
@@ -41,16 +41,23 @@ export function UploadDialog({
   }
 
   function handleFile(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (file) setPreview(URL.createObjectURL(file))
+    const files = Array.from(e.target.files || [])
+    const remaining = 5 - previews.length
+    const toAdd = files.slice(0, remaining).map((f) => URL.createObjectURL(f))
+    setPreviews((prev) => [...prev, ...toAdd])
+    if (fileRef.current) fileRef.current.value = ""
+  }
+
+  function removePreview(index: number) {
+    setPreviews((prev) => prev.filter((_, i) => i !== index))
   }
 
   function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    if (!preview) return
+    if (previews.length === 0) return
     onAdd({
       id: crypto.randomUUID(),
-      image: preview,
+      images: previews,
       date,
       mood,
       caption: caption.trim() || "오늘의 기록",
@@ -69,7 +76,7 @@ export function UploadDialog({
     >
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle className="font-serif text-2xl">
+          <DialogTitle className="font-sans text-2xl">
             추억 남기기
           </DialogTitle>
           <DialogDescription>
@@ -79,29 +86,49 @@ export function UploadDialog({
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           {/* image picker */}
-          <button
-            type="button"
-            onClick={() => fileRef.current?.click()}
-            className="relative flex aspect-[4/3] w-full items-center justify-center overflow-hidden rounded-md border border-dashed border-border bg-muted/50 text-muted-foreground transition-colors hover:bg-muted"
-          >
-            {preview ? (
-              <Image
-                src={preview || "/placeholder.svg"}
-                alt="미리보기"
-                fill
-                className="object-cover"
-              />
-            ) : (
-              <span className="flex flex-col items-center gap-2 text-sm">
-                <ImagePlus className="size-6" aria-hidden="true" />
-                사진 선택하기
-              </span>
-            )}
-          </button>
+          <div className="flex flex-col gap-1.5">
+            <span className="text-xs font-medium text-muted-foreground">
+              사진 <span className="text-foreground">{previews.length}</span>/5
+            </span>
+            <div className="grid grid-cols-5 gap-2">
+              {previews.map((src, i) => (
+                <div
+                  key={i}
+                  className="relative aspect-square overflow-hidden rounded-md bg-muted"
+                >
+                  <Image
+                    src={src}
+                    alt={`사진 ${i + 1}`}
+                    fill
+                    className="object-cover"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removePreview(i)}
+                    className="absolute right-1 top-1 flex size-5 items-center justify-center rounded-full bg-background/80 text-foreground backdrop-blur-sm"
+                    aria-label="삭제"
+                  >
+                    <X className="size-3" />
+                  </button>
+                </div>
+              ))}
+              {previews.length < 5 && (
+                <button
+                  type="button"
+                  onClick={() => fileRef.current?.click()}
+                  className="aspect-square flex items-center justify-center rounded-md border border-dashed border-border bg-muted/50 text-muted-foreground transition-colors hover:bg-muted"
+                  aria-label="사진 추가"
+                >
+                  <ImagePlus className="size-5" />
+                </button>
+              )}
+            </div>
+          </div>
           <input
             ref={fileRef}
             type="file"
             accept="image/*"
+            multiple
             onChange={handleFile}
             className="hidden"
           />
@@ -162,7 +189,7 @@ export function UploadDialog({
           </div>
 
           <DialogFooter>
-            <Button type="submit" disabled={!preview} className="w-full">
+            <Button type="submit" disabled={previews.length === 0} className="w-full">
               기록 남기기
             </Button>
           </DialogFooter>
