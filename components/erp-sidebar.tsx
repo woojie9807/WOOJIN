@@ -17,13 +17,13 @@ import { cn } from '@/lib/utils'
 import { logout } from '@/app/actions/auth'
 
 const navItems = [
-  { href: '/dashboard/notices', label: '공지사항', icon: Bell },
-  { href: '/dashboard/stores', label: '판매장 관리', icon: Store },
-  { href: '/dashboard/orders', label: '발주 관리', icon: Package },
-  { href: '/dashboard/delivery', label: '배송 관리', icon: Truck },
-  { href: '/dashboard/returns', label: '반품 관리', icon: RotateCcw },
-  { href: '/dashboard/cs', label: 'CS 관리', icon: Headphones },
-  { href: '/dashboard/customers', label: '고객 관리', icon: Users },
+  { href: '/woojinerp/notices', label: '공지사항', icon: Bell },
+  { href: '/woojinerp/stores', label: '판매장 관리', icon: Store },
+  { href: '/woojinerp/orders', label: '발주 관리', icon: Package },
+  { href: '/woojinerp/delivery', label: '배송 관리', icon: Truck },
+  { href: '/woojinerp/returns', label: '반품 관리', icon: RotateCcw },
+  { href: '/woojinerp/cs', label: 'CS 관리', icon: Headphones },
+  { href: '/woojinerp/customers', label: '고객 관리', icon: Users },
 ]
 
 export function ErpSidebar() {
