@@ -1,64 +1,70 @@
-import { SummaryCards } from "@/components/summary-cards"
-import { AssetChart } from "@/components/asset-chart"
-import { AllocationChart } from "@/components/allocation-chart"
-import { HoldingsTable } from "@/components/holdings-table"
-import { RecentTrades } from "@/components/recent-trades"
-import { WatchlistChart } from "@/components/watchlist-chart"
-import { ChartLine } from "lucide-react"
+'use client'
 
-export default function Page() {
+import { useActionState } from 'react'
+import { login } from '@/app/actions/auth'
+import { Building2 } from 'lucide-react'
+
+export default function LoginPage() {
+  const [state, formAction, isPending] = useActionState(login, null)
+
   return (
-    <main className="min-h-screen bg-background">
-      <header className="border-b border-border bg-card">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
-          <div className="flex items-center gap-3">
-            <div className="flex size-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <ChartLine className="size-5" />
+    <main className="min-h-screen bg-muted flex items-center justify-center p-4">
+      <div className="w-full max-w-sm">
+        <div className="mb-8 text-center">
+          <div className="mx-auto mb-4 flex size-14 items-center justify-center rounded-2xl bg-primary text-primary-foreground shadow-lg">
+            <Building2 className="size-7" />
+          </div>
+          <h1 className="text-2xl font-bold tracking-tight text-foreground">ERP 시스템</h1>
+          <p className="mt-1 text-sm text-muted-foreground">계정 정보를 입력하여 로그인하세요</p>
+        </div>
+
+        <div className="rounded-xl bg-card ring-1 ring-foreground/10 p-6 shadow-sm">
+          <form action={formAction} className="flex flex-col gap-4">
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-medium text-foreground" htmlFor="id">
+                아이디
+              </label>
+              <input
+                id="id"
+                name="id"
+                type="text"
+                required
+                autoComplete="username"
+                className="h-10 rounded-lg border border-border bg-background px-3 text-sm outline-none transition-shadow focus:border-ring focus:ring-3 focus:ring-ring/50"
+                placeholder="아이디를 입력하세요"
+              />
             </div>
-            <div>
-              <h1 className="font-semibold tracking-tight text-card-foreground">우지니 주식 계좌</h1>
-              <p className="text-xs text-muted-foreground">포트폴리오 대시보드</p>
+
+            <div className="flex flex-col gap-1.5">
+              <label className="text-sm font-medium text-foreground" htmlFor="password">
+                비밀번호
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                required
+                autoComplete="current-password"
+                className="h-10 rounded-lg border border-border bg-background px-3 text-sm outline-none transition-shadow focus:border-ring focus:ring-3 focus:ring-ring/50"
+                placeholder="비밀번호를 입력하세요"
+              />
             </div>
-          </div>
-          <div className="text-right">
-            <p className="text-xs text-muted-foreground">기준일</p>
-            <p className="text-sm font-medium text-card-foreground">2026.06.15</p>
-          </div>
+
+            {state?.error && (
+              <p className="rounded-lg bg-destructive/10 px-3 py-2 text-sm text-destructive">
+                {state.error}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              disabled={isPending}
+              className="mt-2 h-10 w-full rounded-lg bg-primary px-4 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90 disabled:opacity-50"
+            >
+              {isPending ? '로그인 중...' : '로그인'}
+            </button>
+          </form>
         </div>
-      </header>
-
-      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-6 sm:px-6">
-        <SummaryCards />
-
-        {/* 2행 */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-5">
-          <div className="lg:col-span-3">
-            <HoldingsTable />
-          </div>
-
-          <div className="lg:col-span-2">
-            <AssetChart />
-          </div>
-        </div>
-
-        {/* 3행 */}
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
-          <div>
-            <WatchlistChart />
-          </div>
-
-          <div>
-            <RecentTrades />
-          </div>
-
-          <div>
-            <AllocationChart />
-          </div>
-        </div>
-
-        <p className="text-center text-xs text-muted-foreground">
-          표시된 데이터는 샘플이며 실제 시세와 다를 수 있습니다.
-        </p>
       </div>
     </main>
   )

@@ -10,8 +10,8 @@ const geistMono = Geist_Mono({
 })
 
 export const metadata: Metadata = {
-  title: '우지니의 주식 계좌 대시보드',
-  description: '보유 종목, 평가 손익, 자산 추이를 한눈에 보는 포트폴리오 대시보드',
+  title: 'ERP 시스템',
+  description: '판매장, 발주, 배송, 반품, CS, 고객 관리 통합 ERP 시스템',
   generator: 'v0.app',
   icons: {
     icon: [
